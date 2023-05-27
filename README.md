@@ -8,12 +8,12 @@ This is a satirical QA bot built with a gpt + langchain backend, which uses a ve
 You will need a local copy of this repo, as well as Python (this app was built on 3.10, but I think 3.8+ will do), and an OpenAI API Key (and some money, if your free trial has run out).
 
 In terms of funky packages, there's:
-streamlit
-langchain
-tiktoken
-openai
-snscrape
-chromadb
+- streamlit
+- langchain
+- tiktoken
+- openai
+- snscrape
+- chromadb
 
 (apologies - I didn't build this in a venv and pipreqs refuses to work)
 
