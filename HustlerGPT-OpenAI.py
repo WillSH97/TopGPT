@@ -9,21 +9,20 @@ import pandas as pd
 import os
 import streamlit as st
 from langchain.embeddings.openai import OpenAIEmbeddings
-from langchain.embeddings.cohere import CohereEmbeddings
-from langchain.text_splitter import CharacterTextSplitter
-from langchain.vectorstores.elastic_vector_search import ElasticVectorSearch
 from langchain.vectorstores import Chroma
-from langchain.docstore.document import Document
 from langchain.prompts import PromptTemplate
 from langchain.chains.question_answering import load_qa_chain
 from langchain.llms import OpenAI
-import chromadb
 
-persist_directory = "G:\My Drive\Git\chromadb_hustlergpt_openai_dr"
+### SET DIRECTORIES
 
-tweets_df = pd.read_csv('G:/My Drive/twitterdata/andrew_tate.csv')
+base_dir = os.path.dirname(os.path.abspath('__file__'))
 
-persist_directory = 'G:/My Drive/Git/chromadb_hustlergpt_openai_dr'
+tweets_df = pd.read_csv(base_dir + '/twitterdata/andrew_tate.csv')
+
+persist_directory = base_dir + '/chromadb_hustlergpt_openai_dr'
+
+### PROMPT TEMPLATE
 
 prompt_template = """Use the following style and information examples to answer the question at the end. 
 Rely on the examples predominantly.
@@ -67,8 +66,8 @@ with st.sidebar:
 # if st.session_state['active']:
 embeddings = OpenAIEmbeddings(openai_api_key = st.session_state['openai_api_key'])
 if not os.path.exists(persist_directory + "/chroma-embeddings.parquet"):
+    os.makedirs(persist_directory, exist_ok=True)
     texts = list(tweets_df.Tweets)
-
     docsearch = Chroma.from_texts(texts, 
                                   embeddings, ## Don't need this because results are worse with search by vector
                                   metadatas = [{'num_likes': \
